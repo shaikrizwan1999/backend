@@ -1,16 +1,34 @@
-const Menu = require('../Models/Menu');
+const mongoose = require('mongoose');
 
-exports.getMenuForRestaurant = (req, res) => {
-    const restId = req.params.restaurantId;
-    Menu.find({ restaurantId: restId }).then(result => {
-        res.status(200).json({
-            message: `menu for restaurant ${restId}`,
-            menu: result
-        });
-    }).catch(error => {
-        res.status(500).json({
-            message: "Error in Database",
-            error: error
-        });
-    });
-}
+// create a schema
+const Schema = mongoose.Schema;
+
+// we need to declare the fields present in the collection
+const MenuSchema = new Schema(
+    {
+        restaurantId: {
+            type: String,
+            required: true
+        },
+        itemPrice: {
+            type: Number,
+            required: true
+        },
+        itemName: {
+            type: String,
+            required: true
+        },
+        itemDescription: {
+            type: String,
+            required: true
+        },
+        isVeg: {
+            type: Boolean,
+            required: true
+        }
+    }
+);
+
+// create a model from schema, connect to mongoDB collection and export the model
+module.exports = mongoose.model('Menu', MenuSchema, 'menu');
+

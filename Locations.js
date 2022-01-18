@@ -1,19 +1,34 @@
-const Location = require('../Models/Locations');
+const mongoose = require('mongoose');
 
+// create a schema
+const Schema = mongoose.Schema;
 
-// export the below controller functionality
+// we need to declare the fields present in the collection
+const LocationSchema = new Schema(
+    {
+        name: {
+            type: String,
+            required: true
+        },
+        city_id: {
+            type: Number,
+            required: true
+        },
+        location_id: {
+            type: Number,
+            required: true
+        },
+        city: {
+            type: String,
+            required: true
+        },
+        country_name: {
+            type: String,
+            required: true
+        }
+    }
+);
 
-// get all the locations
-exports.getAllLocations = (req, res) => {
-    Location.find().then(result => {
-        res.status(200).json({
-            message: "Locations fetched",
-            locations: result
-        });
-    }).catch(error => {
-        res.status(500).json({
-            message: "Error in Database",
-            error: error
-        });
-    });
-}
+// create a model from schema, connect to mongoDB collection and export the model
+module.exports = mongoose.model('Location', LocationSchema, 'location');
+

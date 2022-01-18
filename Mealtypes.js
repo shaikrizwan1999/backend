@@ -1,18 +1,31 @@
-const Mealtype = require('../Models/Mealtypes');
+const mongoose = require('mongoose');
 
-// export the below controller functionality
 
-// get all the mealtypes available
-exports.getAllMealTypes = (req, res) => {
-    Mealtype.find().then(result => {
-        res.status(200).json({
-            message: "Mealtypes fetched",
-            mealtypes: result
-        });
-    }).catch(error => {
-        res.status(500).json({
-            message: "Error in Database",
-            error: error
-        });
-    });
-}
+// create a schema
+const Schema = mongoose.Schema;
+
+
+// we need to declare the fields present in the collection
+const MealTypeSchema = new Schema(
+    {
+        name: {
+            type: String,
+            required: true
+        },
+        content: {
+            type: String,
+            required: true
+        },
+        image: {
+            type: String,
+            required: true
+        },
+        meal_type: {
+            type: Number,
+            required: true
+        }
+    }
+);
+
+// create a model from schema, connect to mongoDB collection and export the model
+module.exports = mongoose.model('Mealtype', MealTypeSchema, 'MealType');
